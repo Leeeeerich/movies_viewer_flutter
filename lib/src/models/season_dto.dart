@@ -5,11 +5,11 @@ class SeasonsDto {
 
   factory SeasonsDto.fromJson(List<dynamic> parsedJson) {
     List<SeasonDto> list1 = new List<SeasonDto>();
-    for (var i = parsedJson.length; i > 0; i--) {
-      list1.add(parsedJson[i].cast<SeasonDto>());
+    for (var i = 0; i < parsedJson.length; i++) {
+      list1.add(SeasonDto.fromJson(parsedJson[i]));
     }
 
-    return new SeasonsDto(
+    return SeasonsDto(
       list: list1,
     );
   }
@@ -17,66 +17,45 @@ class SeasonsDto {
 
 class SeasonDto {
   final String seasonName;
-  final List listSeries;
+  final List<SeriesDto> listSeries;
 
   SeasonDto(this.seasonName, this.listSeries);
 
   factory SeasonDto.fromJson(Map<String, dynamic> json) {
-    return SeasonDto(json['comment'], json['folder']);
+    var series = List<SeriesDto>();
+    json['folder']
+        .forEach((element) => series.add(SeriesDto.fromJson(element)));
 
-//    seasonName = json['comment']
-//    ,
-//    listSeries = json['folder'];
+    return SeasonDto(json['comment'], series);
   }
-
-  Map<String, dynamic> toJson() => {
-        'comment': seasonName,
-        'folder': listSeries,
-      };
 }
 
 class SeriesDto {
   final String nameOfSeries;
-  final String movies;
+  final List<QualityDto> movies;
 
   SeriesDto(this.nameOfSeries, this.movies);
 
-  SeriesDto.fromJson(Map<String, dynamic> json)
-      : nameOfSeries = json['comment'],
-        movies = json['file'];
+  factory SeriesDto.fromJson(Map<String, dynamic> json) {
+    var qualities = List<QualityDto>();
 
-  Map<String, dynamic> toJson() => {
-        'comment': nameOfSeries,
-        'file': movies,
-      };
-}
-
-class Obj {
-  final String comment;
-  final String folder;
-
-  Obj({this.comment, this.folder});
-
-  factory Obj.fromJson(Map<String, dynamic> json) {
-    return new Obj(
-      comment: json['comment'].toString(),
-      folder: json['folder'],
-    );
+    json['file'].split(",").forEach((element) {
+      var movieUrls = List<String>();
+      var endQuality = element.indexOf("]") + 1;
+      var qualityName = element.substring(element.indexOf("["), endQuality);
+      element
+          .substring(endQuality)
+          .split(" or ")
+          .forEach((url) => movieUrls.add(url));
+      qualities.add(QualityDto(qualityName, movieUrls));
+    });
+    return SeriesDto(json['comment'], qualities);
   }
 }
 
-class ObjList {
-  final List<Obj> objs;
+class QualityDto {
+  final String qualityName;
+  final List<String> listMovie;
 
-  ObjList({
-    this.objs,
-  });
-
-  factory ObjList.fromJson(List<dynamic> parsedJson) {
-    List<Obj> obj = new List<Obj>();
-
-    return new ObjList(
-      objs: obj,
-    );
-  }
+  QualityDto(this.qualityName, this.listMovie);
 }

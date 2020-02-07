@@ -8,16 +8,16 @@ import 'package:rxdart/rxdart.dart';
 
 class SeasonsModel extends ChangeNotifier with BlocBase {
   Repository _repository;
-  final _seasonFetcher = PublishSubject<SeasonDto>();
+  final _seasonFetcher = PublishSubject<SeasonsDto>();
   SeasonsDto _seasonsDto;
 
   SeasonsModel(Repository repository) {
     _repository = repository;
-    getSeasons(
+    loadSeasons(
         "https://kinogo.by/13106-food-wars-shokugeki-no-soma_1-4-sezon.html");
 
     _seasonFetcher.listen((onData) {
-//      _seasonsDto = onData;
+      _seasonsDto = onData;
     });
   }
 
@@ -30,10 +30,9 @@ class SeasonsModel extends ChangeNotifier with BlocBase {
 //    notifyListeners();
 //  }
 
-  getSeasons(String url) {
+  loadSeasons(String url) {
     _seasonFetcher.addStream(_repository.getSeasons(url));
-
-//    notifyListeners();
+    notifyListeners();
   }
 
   @override

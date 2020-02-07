@@ -11,7 +11,7 @@ class Repository {
 
   Repository._internal();
 
-  Stream<SeasonDto> getSeasons(String url) {
+  Stream<SeasonsDto> getSeasons(String url) {
     return getPage(url).asStream().map((res) {
       if (res.statusCode == 200) {
         var utf = decodeCp1251(res.body);
@@ -19,17 +19,10 @@ class Repository {
             utf.substring(utf.indexOf("[{\"comment\":\"1 сезон\",\"folder\":"));
 
         var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
-//        print(preData);
-
-        var data1 = JsonEncoder().convert([
-          {"comment": "vasya1", "folder": null},
-          {"comment": "vasya2", "folder": null}
-        ]);
-        var data = JsonDecoder().convert(data1);
-        print(data);
+        var data = JsonDecoder().convert(preData);
         var seasons = SeasonsDto.fromJson(data);
-        print(seasons.list);
-        return null;
+        print(seasons.list[0].listSeries[0].movies[0].qualityName);
+        return seasons;
       }
       return null;
     });
