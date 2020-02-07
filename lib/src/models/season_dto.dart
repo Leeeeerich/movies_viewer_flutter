@@ -1,9 +1,18 @@
 class SeasonsDto {
-  final List list;
+  final List<SeasonDto> list;
 
-  SeasonsDto(this.list);
+  SeasonsDto({this.list});
 
-  SeasonsDto.fromJson(dynamic json) : list = json;
+  factory SeasonsDto.fromJson(List<dynamic> parsedJson) {
+    List<SeasonDto> list1 = new List<SeasonDto>();
+    for (var i = parsedJson.length; i > 0; i--) {
+      list1.add(parsedJson[i].cast<SeasonDto>());
+    }
+
+    return new SeasonsDto(
+      list: list1,
+    );
+  }
 }
 
 class SeasonDto {
@@ -12,9 +21,13 @@ class SeasonDto {
 
   SeasonDto(this.seasonName, this.listSeries);
 
-  SeasonDto.fromJson(Map<String, dynamic> json)
-      : seasonName = json['comment'],
-        listSeries = json['folder'];
+  factory SeasonDto.fromJson(Map<String, dynamic> json) {
+    return SeasonDto(json['comment'], json['folder']);
+
+//    seasonName = json['comment']
+//    ,
+//    listSeries = json['folder'];
+  }
 
   Map<String, dynamic> toJson() => {
         'comment': seasonName,
@@ -36,4 +49,34 @@ class SeriesDto {
         'comment': nameOfSeries,
         'file': movies,
       };
+}
+
+class Obj {
+  final String comment;
+  final String folder;
+
+  Obj({this.comment, this.folder});
+
+  factory Obj.fromJson(Map<String, dynamic> json) {
+    return new Obj(
+      comment: json['comment'].toString(),
+      folder: json['folder'],
+    );
+  }
+}
+
+class ObjList {
+  final List<Obj> objs;
+
+  ObjList({
+    this.objs,
+  });
+
+  factory ObjList.fromJson(List<dynamic> parsedJson) {
+    List<Obj> obj = new List<Obj>();
+
+    return new ObjList(
+      objs: obj,
+    );
+  }
 }

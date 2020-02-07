@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movies_viewer_flutter/src/models/seasons_model.dart';
 import 'package:movies_viewer_flutter/src/ui/video_player/video_player.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -11,14 +13,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +26,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            Consumer<SeasonsModel>(
+              builder: (context, seasons, child) {
+                return Text("Seasons $seasons");
+              },
             ),
           ],
         ),

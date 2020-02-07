@@ -22,6 +22,7 @@ dependencies:
   video_player:
   provider: ^4.0.2
   http:
+  html:
   rxdart: ^0.23.1
 
   # The following adds the Cupertino Icons font to your application.
