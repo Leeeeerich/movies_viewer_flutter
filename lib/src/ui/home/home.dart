@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_viewer_flutter/src/models/seasons_model.dart';
-import 'package:movies_viewer_flutter/src/ui/video_player/video_player.dart';
-import 'package:provider/provider.dart';
+import 'package:movies_viewer_flutter/src/ui/home/select_series/select_series.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -26,16 +24,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Consumer<SeasonsModel>(
-              builder: (context, seasons, child) {
-                return Text("Seasons $seasons");
-              },
-            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => VideoPlayerScreen(),
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SelectSeriesWidget()),
+          )
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

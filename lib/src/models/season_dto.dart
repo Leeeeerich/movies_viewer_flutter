@@ -1,7 +1,7 @@
-class SeasonsDto {
-  final List<SeasonDto> list;
+class SeasonsDto implements Attachments<SeasonDto> {
+  List<SeasonDto> _attachments;
 
-  SeasonsDto({this.list});
+  SeasonsDto(this._attachments);
 
   factory SeasonsDto.fromJson(List<dynamic> parsedJson) {
     List<SeasonDto> list1 = new List<SeasonDto>();
@@ -9,17 +9,27 @@ class SeasonsDto {
       list1.add(SeasonDto.fromJson(parsedJson[i]));
     }
 
-    return SeasonsDto(
-      list: list1,
-    );
+    return SeasonsDto(list1);
   }
+
+  @override
+  List<SeasonDto> getAttachments() {
+    return _attachments;
+  }
+
+  set list(List<SeasonDto> _list) {
+    this._attachments = _list;
+  }
+
+  @override
+  String get name => null;
 }
 
-class SeasonDto {
+class SeasonDto implements Attachments<SeriesDto> {
   final String seasonName;
-  final List<SeriesDto> listSeries;
+  List<SeriesDto> _attachments;
 
-  SeasonDto(this.seasonName, this.listSeries);
+  SeasonDto(this.seasonName, this._attachments);
 
   factory SeasonDto.fromJson(Map<String, dynamic> json) {
     var series = List<SeriesDto>();
@@ -28,13 +38,27 @@ class SeasonDto {
 
     return SeasonDto(json['comment'], series);
   }
+
+  @override
+  List<SeriesDto> getAttachments() {
+    return _attachments;
+  }
+
+  @override
+  set list(List<SeriesDto> _list) {
+    this._attachments = _list;
+  }
+
+  @override
+  // TODO: implement name
+  String get name => seasonName;
 }
 
-class SeriesDto {
+class SeriesDto implements Attachments<QualityDto> {
   final String nameOfSeries;
-  final List<QualityDto> movies;
+  List<QualityDto> _attachments;
 
-  SeriesDto(this.nameOfSeries, this.movies);
+  SeriesDto(this.nameOfSeries, this._attachments);
 
   factory SeriesDto.fromJson(Map<String, dynamic> json) {
     var qualities = List<QualityDto>();
@@ -51,11 +75,47 @@ class SeriesDto {
     });
     return SeriesDto(json['comment'], qualities);
   }
+
+  @override
+  List<QualityDto> getAttachments() {
+    return _attachments;
+  }
+
+  @override
+  set list(List<QualityDto> _list) {
+    this._attachments = _list;
+  }
+
+  @override
+  // TODO: implement name
+  String get name => nameOfSeries;
 }
 
-class QualityDto {
+class QualityDto implements Attachments<String> {
   final String qualityName;
-  final List<String> listMovie;
+  List<String> _attachments;
 
-  QualityDto(this.qualityName, this.listMovie);
+  QualityDto(this.qualityName, this._attachments);
+
+  @override
+  set list(List<String> _list) {
+    this._attachments = _list;
+  }
+
+  @override
+  List<String> getAttachments() {
+    return _attachments;
+  }
+
+  @override
+  // TODO: implement name
+  String get name => qualityName;
+}
+
+abstract class Attachments<T> {
+  List<T> _attachments;
+
+  String get name;
+
+  List<T> getAttachments();
 }

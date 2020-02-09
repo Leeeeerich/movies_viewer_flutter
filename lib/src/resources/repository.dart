@@ -21,7 +21,6 @@ class Repository {
         var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
         var data = JsonDecoder().convert(preData);
         var seasons = SeasonsDto.fromJson(data);
-        print(seasons.list[0].listSeries[0].movies[0].qualityName);
         return seasons;
       }
       return null;
