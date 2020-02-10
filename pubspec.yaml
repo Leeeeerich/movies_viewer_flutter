@@ -22,6 +22,8 @@ dependencies:
 
   #Outside connections
   http:
+  http_middleware: any
+  http_logger: any
 
   #Functionality
   provider: ^4.0.2

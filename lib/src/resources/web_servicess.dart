@@ -1,6 +1,12 @@
 import 'package:http/http.dart';
+import 'package:http_logger/http_logger.dart';
+import 'package:http_middleware/http_middleware.dart';
 
-Future<Response> getPage(String url) => Client().get(url, headers: headers);
+HttpWithMiddleware httpClient = HttpWithMiddleware.build(middlewares: [
+  HttpLogger(logLevel: LogLevel.BODY),
+]);
+
+Future<Response> getPage(String url) => httpClient.get(url, headers: headers);
 
 const headers = {
   'Cache-Control': 'no-cache',

@@ -14,7 +14,7 @@ class Repository {
 
   getSeasons(String url, Function(SeasonsDto, Status) callback) {
     print("Pre getPage");
-    getPage(url).asStream().map((res) {
+    getPage(url).then((res) {
       print("Pageresponce ${res.statusCode}");
       SeasonsDto seasonsDto;
       if (res.statusCode == 200) {
