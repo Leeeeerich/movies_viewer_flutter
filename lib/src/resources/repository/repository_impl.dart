@@ -1,20 +1,26 @@
 import 'dart:convert';
 
 import 'package:movies_viewer_flutter/src/models/season_dto.dart';
+import 'package:movies_viewer_flutter/src/resources/repository/repository.dart';
 import 'package:movies_viewer_flutter/src/resources/status.dart';
-import 'package:movies_viewer_flutter/src/resources/web_servicess.dart';
+import 'package:movies_viewer_flutter/src/resources/web_services/web_services.dart';
+import 'package:movies_viewer_flutter/src/resources/web_services/web_services_impl.dart';
 import 'package:movies_viewer_flutter/src/utils/decoders.dart';
 
-class Repository {
-  static final Repository _repository = Repository._internal();
+class RepositoryImpl implements Repository {
+  RepositoryImpl._internal();
 
-  factory Repository() => _repository;
+  static final RepositoryImpl _repository = RepositoryImpl._internal();
 
-  Repository._internal();
+  factory RepositoryImpl() => _repository;
 
+  final WebServices _webServices =
+      WebServicesImpl(); //TODO need injection from outside
+
+  @override
   getSeasons(String url, Function(SeasonsDto, Status) callback) {
     print("Pre getPage");
-    getPage(url).then((res) {
+    _webServices.getPage(url).then((res) {
       print("Pageresponce ${res.statusCode}");
       SeasonsDto seasonsDto;
       if (res.statusCode == 200) {
