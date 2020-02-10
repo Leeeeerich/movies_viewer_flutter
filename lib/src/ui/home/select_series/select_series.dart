@@ -6,14 +6,20 @@ import 'package:movies_viewer_flutter/src/ui/video_player/video_player.dart';
 import 'package:provider/provider.dart';
 
 class SelectSeriesWidget extends StatelessWidget {
+  String _linkOnMovies;
+
+  SelectSeriesWidget(this._linkOnMovies, {Key key});
+
   @override
   Widget build(BuildContext context) {
+    _loadMovies(context);
     return Scaffold(
       appBar: AppBar(title: Text("Title")),
       body: Consumer<SeasonsModel>(
         builder: (context, seasons, child) {
-          if (seasons.seasonLists == null) {
-            return SpinKitCubeGrid(size: 51.0, color: Colors.blue);
+          if (seasons.seasonLists.isEmpty) {
+            return Center(
+                child: SpinKitCubeGrid(size: 51.0, color: Colors.blue));
           } else {
             return ListView.builder(
                 itemCount: seasons.seasonLists.length,
@@ -32,6 +38,11 @@ class SelectSeriesWidget extends StatelessWidget {
         },
       ),
     );
+  }
+
+  _loadMovies(BuildContext context) {
+    Provider.of<SeasonsModel>(context, listen: false)
+        .loadSeasons(_linkOnMovies);
   }
 
   _buildExpandableContent<T extends Attachments>(

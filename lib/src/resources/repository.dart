@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:movies_viewer_flutter/src/models/season_dto.dart';
+import 'package:movies_viewer_flutter/src/resources/status.dart';
 import 'package:movies_viewer_flutter/src/resources/web_servicess.dart';
 import 'package:movies_viewer_flutter/src/utils/decoders.dart';
 
@@ -11,8 +12,11 @@ class Repository {
 
   Repository._internal();
 
-  Stream<SeasonsDto> getSeasons(String url) {
-    return getPage(url).asStream().map((res) {
+  getSeasons(String url, Function(SeasonsDto, Status) callback) {
+    print("Pre getPage");
+    getPage(url).asStream().map((res) {
+      print("Pageresponce ${res.statusCode}");
+      SeasonsDto seasonsDto;
       if (res.statusCode == 200) {
         var utf = decodeCp1251(res.body);
         var pre =
@@ -20,10 +24,9 @@ class Repository {
 
         var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
         var data = JsonDecoder().convert(preData);
-        var seasons = SeasonsDto.fromJson(data);
-        return seasons;
+        seasonsDto = SeasonsDto.fromJson(data);
       }
-      return null;
+      callback(seasonsDto, Status(true, res.statusCode));
     });
   }
 }
