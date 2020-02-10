@@ -23,16 +23,22 @@ class RepositoryImpl implements Repository {
     _webServices.getPage(url).then((res) {
       print("Pageresponce ${res.statusCode}");
       SeasonsDto seasonsDto;
+      String message;
       if (res.statusCode == 200) {
         var utf = decodeCp1251(res.body);
-        var pre =
-            utf.substring(utf.indexOf("[{\"comment\":\"1 сезон\",\"folder\":"));
+        var startMovies = utf.indexOf("[{\"comment\":\"1 сезон\",\"folder\":");
 
-        var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
-        var data = JsonDecoder().convert(preData);
-        seasonsDto = SeasonsDto.fromJson(data);
+        if (startMovies == -1) {
+          message = 'Bad link';
+        } else {
+          var pre = utf.substring(startMovies);
+          var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
+          var data = JsonDecoder().convert(preData);
+          seasonsDto = SeasonsDto.fromJson(data);
+        }
       }
-      callback(seasonsDto, Status(true, res.statusCode));
+      callback(seasonsDto,
+          Status(res.statusCode == 200, res.statusCode, message: message));
     });
   }
 }

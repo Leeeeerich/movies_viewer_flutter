@@ -50,7 +50,6 @@ class SeasonDto implements Attachments<SeriesDto> {
   }
 
   @override
-  // TODO: implement name
   String get name => seasonName;
 }
 
@@ -87,7 +86,6 @@ class SeriesDto implements Attachments<QualityDto> {
   }
 
   @override
-  // TODO: implement name
   String get name => nameOfSeries;
 }
 
