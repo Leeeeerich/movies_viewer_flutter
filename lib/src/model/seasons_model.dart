@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_viewer_flutter/src/models/season_dto.dart';
+import 'package:movies_viewer_flutter/src/model/season_dto.dart';
 import 'package:movies_viewer_flutter/src/resources/repository/repository_impl.dart';
 
 class SeasonsModel extends ChangeNotifier {
