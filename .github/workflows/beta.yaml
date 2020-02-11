@@ -103,7 +103,7 @@ jobs:
 #    needs: [drive_ios,drive_android,test]
     needs: [drive_android]
 #    name: Build  apk  and web
-#    steps:
+    steps:
       - uses: actions/checkout@master
       - uses: subosito/flutter-action@v1
         with:
