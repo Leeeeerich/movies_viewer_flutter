@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:movies_viewer_flutter/src/models/season_dto.dart';
+import 'package:movies_viewer_flutter/src/model/season_dto.dart';
 import 'package:movies_viewer_flutter/src/resources/repository/repository.dart';
 import 'package:movies_viewer_flutter/src/resources/status.dart';
 import 'package:movies_viewer_flutter/src/resources/web_services/web_services.dart';

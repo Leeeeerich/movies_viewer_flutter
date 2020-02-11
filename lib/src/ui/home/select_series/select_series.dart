@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:movies_viewer_flutter/src/models/season_dto.dart';
-import 'package:movies_viewer_flutter/src/models/seasons_model.dart';
+import 'package:movies_viewer_flutter/src/model/season_dto.dart';
+import 'package:movies_viewer_flutter/src/model/seasons_model.dart';
 import 'package:movies_viewer_flutter/src/ui/video_player/video_player.dart';
 import 'package:provider/provider.dart';
 
