@@ -81,7 +81,7 @@ jobs:
 #    needs: test
     steps:
       - uses: actions/checkout@master
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@master
         with:
           flutter-version: '1.12.14'
           channel: 'dev'
@@ -105,13 +105,13 @@ jobs:
 #    name: Build  apk  and web
     steps:
       - uses: actions/checkout@master
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@master
         with:
           flutter-version: '1.12.14'
           channel: 'dev'
       # This action sets up a java environment
       # https://github.com/actions/setup-java
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@master
         with:
           java-version: '12.x'
       #enable linux,macos,windows   and  web
@@ -124,7 +124,7 @@ jobs:
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/Leeeeerich/movies_viewer_flutter/releases
       - name: Create a Release APK
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@master
         with:
           artifacts: "build/app/outputs/apk/debug/*.apk"
           token: ${{ secrets.GITHUB_TOKEN }}
