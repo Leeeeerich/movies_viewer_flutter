@@ -124,7 +124,7 @@ jobs:
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/Leeeeerich/movies_viewer_flutter/releases
       - name: Create a Release APK
-        uses: ncipollo/release-action@master
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/debug/*.apk"
           token: ${{ secrets.GITHUB_TOKEN }}
