@@ -1,8 +1,8 @@
 name: beta_release
 on:
-  push:
-    branches:
-      - beta_release
+#  push:
+#    branches:
+#      - beta_release
 
 jobs:
 
