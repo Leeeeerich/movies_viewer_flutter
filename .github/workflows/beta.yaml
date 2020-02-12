@@ -130,4 +130,4 @@ jobs:
           prerelease: true
           title: Development Build
           files: build/app/outputs/apk/debug/*.apk
-      - run: flutter build web
+#      - run: flutter build web
