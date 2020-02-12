@@ -45,11 +45,6 @@ class SeasonDto implements Attachments<SeriesDto> {
   }
 
   @override
-  set list(List<SeriesDto> _list) {
-    this._attachments = _list;
-  }
-
-  @override
   String get name => seasonName;
 }
 
@@ -81,11 +76,6 @@ class SeriesDto implements Attachments<QualityDto> {
   }
 
   @override
-  set list(List<QualityDto> _list) {
-    this._attachments = _list;
-  }
-
-  @override
   String get name => nameOfSeries;
 }
 
@@ -96,22 +86,15 @@ class QualityDto implements Attachments<String> {
   QualityDto(this.qualityName, this._attachments);
 
   @override
-  set list(List<String> _list) {
-    this._attachments = _list;
-  }
-
-  @override
   List<String> getAttachments() {
     return _attachments;
   }
 
   @override
-  // TODO: implement name
   String get name => qualityName;
 }
 
 abstract class Attachments<T> {
-  List<T> _attachments;
 
   String get name;
 

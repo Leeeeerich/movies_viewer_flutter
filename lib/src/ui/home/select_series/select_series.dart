@@ -5,6 +5,7 @@ import 'package:movies_viewer_flutter/src/model/seasons_model.dart';
 import 'package:movies_viewer_flutter/src/ui/video_player/video_player.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SelectSeriesWidget extends StatelessWidget {
   String _linkOnMovies;
 
