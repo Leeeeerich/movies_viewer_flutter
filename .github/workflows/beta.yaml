@@ -70,7 +70,7 @@ jobs:
 
   drive_android:
     #if conditional to prevent a job from running
-    if: github.event_name != 'pull_request'
+#    if: github.event_name != 'pull_request'
     runs-on: macos-latest
     #creates a build matrix for your jobs
     strategy:
