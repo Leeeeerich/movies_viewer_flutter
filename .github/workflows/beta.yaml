@@ -68,40 +68,40 @@ jobs:
 #      - name: Run Flutter Driver tests
 #        run: flutter drive --target=test_driver/app.dart
 
-#  drive_android:
+  drive_android:
     #if conditional to prevent a job from running
-#    if: github.event_name != 'pull_request'
-#    runs-on: macos-latest
+    if: github.event_name != 'pull_request'
+    runs-on: macos-latest
     #creates a build matrix for your jobs
-#    strategy:
+    strategy:
       #set of different configurations of the virtual environment.
-#      matrix:
-#        api-level: [29]
-#        target: [default]
-#    needs: test
-#    steps:
-#      - uses: actions/checkout@master
-#      - uses: subosito/flutter-action@master
-#        with:
-#          flutter-version: '1.12.14'
-#          channel: 'dev'
-#      - name: Run Flutter Driver tests
+      matrix:
+        api-level: [29]
+        target: [default]
+    needs: test
+    steps:
+      - uses: actions/checkout@master
+      - uses: subosito/flutter-action@master
+        with:
+          flutter-version: '1.12.14'
+          channel: 'dev'
+      - name: Run Flutter Driver tests
         #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
         #https://github.com/ReactiveCircus/android-emulator-runner
-#        uses: reactivecircus/android-emulator-runner@master
-#        with:
-#          api-level: ${{ matrix.api-level }}
-#          target: ${{ matrix.target }}
-#          arch: x86_64
-#          profile: Nexus 6
-#          script: flutter drive --target=test_driver/app.dart
+        uses: reactivecircus/android-emulator-runner@master
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter drive --target=test_driver/app.dart
 
   build_deploy:
     #if conditional to prevent a job from running
     runs-on: macos-latest
     #Identifies any jobs that must complete successfully before this job will run.
 #    needs: [drive_ios,drive_android,test]
-#    needs: [drive_android]
+    needs: [drive_android]
     name: Build apk and web
     steps:
       - uses: actions/checkout@master
@@ -119,7 +119,6 @@ jobs:
       - run: flutter  config --enable-linux-desktop
       - run: flutter  config --enable-macos-desktop
       - run: flutter  config --enable-windows-desktop
-      #- run: flutter build macos --debug
       - run: flutter build apk --debug --split-per-abi
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/Leeeeerich/movies_viewer_flutter/releases
@@ -131,16 +130,4 @@ jobs:
           prerelease: true
           title: Development Build
           files: build/app/outputs/apk/debug/*.apk
-#        uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: build/app/outputs/apk/debug/*.apk
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#      - run: flutter build web
-      # Handle the deploy process of your project to GitHub Pages.
-      # https://github.com/JamesIves/github-pages-deploy-action
-#      - uses: JamesIves/github-pages-deploy-action@releases/v3
-#        with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-#          BASE_BRANCH: master
-#          BRANCH: gh-pages
-#          FOLDER: build/web
+      - run: flutter build web
