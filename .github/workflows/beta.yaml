@@ -136,6 +136,6 @@ jobs:
       # https://github.com/JamesIves/github-pages-deploy-action
       - uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build/web
