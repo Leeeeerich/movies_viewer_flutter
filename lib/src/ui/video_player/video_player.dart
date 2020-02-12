@@ -64,7 +64,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             return AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
               // Use the VideoPlayer widget to display the video.
-              child: VideoPlayer(_controller),
+              child: Stack(children: <Widget>[
+                VideoPlayer(_controller),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                child: VideoProgressIndicator(
+                  _controller,
+                  allowScrubbing: true,
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                )),
+              ]),
             );
           } else {
             // If the VideoPlayerController is still initializing, show a
