@@ -6,30 +6,30 @@ on:
 
 jobs:
 
-#  test:
+  test:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
-#    runs-on: macos-latest
+    runs-on: macos-latest
     #sequence of tasks called
-#    steps:
+    steps:
       # The branch or tag ref that triggered the workflow will be checked out.
       # https://github.com/actions/checkout
-#      - uses: actions/checkout@master
+      - uses: actions/checkout@master
       # Setup a flutter environment.
       # https://github.com/marketplace/actions/flutter-action
-#      - uses: subosito/flutter-action@v1
-#        with:
-#          flutter-version: '1.12.14'
-#          channel: 'dev'
-#      - run: flutter pub get
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.14'
+          channel: 'dev'
+      - run: flutter pub get
       # run static analys code
-#      - run: flutter analyze
+      - run: flutter analyze
       # run  flutter widgets tests  and unit tests
-#      - run: flutter test --coverage
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v1
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          file: coverage/lcov.info
+      - run: flutter test --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/lcov.info
 
 #  drive_ios:
     #creates a build matrix for your jobs
@@ -102,6 +102,7 @@ jobs:
     #Identifies any jobs that must complete successfully before this job will run.
 #    needs: [drive_ios,drive_android,test]
 #    needs: [drive_android]
+    needs: [test]
     name: Build apk and web
     steps:
       - uses: actions/checkout@master
