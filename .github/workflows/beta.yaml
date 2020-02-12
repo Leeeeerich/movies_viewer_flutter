@@ -127,7 +127,9 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
+          automatic_release_tag: latest
+          prerelease: true
+          title: Development Build
           files: build/app/outputs/apk/debug/*.apk
 #        uses: ncipollo/release-action@v1
 #        with:
