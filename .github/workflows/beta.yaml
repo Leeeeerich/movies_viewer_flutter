@@ -134,7 +134,7 @@ jobs:
       - run: flutter build web
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
-      - uses: JamesIves/github-pages-deploy-action@releases/v3
+      - uses: JamesIves/github-pages-deploy-action@master
         with:
           ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
           BRANCH: gh-pages
