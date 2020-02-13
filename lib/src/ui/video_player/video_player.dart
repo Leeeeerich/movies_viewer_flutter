@@ -14,6 +14,7 @@ class VideoPlayerScreen extends StatefulWidget {
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+  var lastPosition = 0.0;
 
   @override
   void initState() {
@@ -66,13 +67,39 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               // Use the VideoPlayer widget to display the video.
               child: Stack(children: <Widget>[
                 VideoPlayer(_controller),
+                GestureDetector(
+                  onTap: () {
+                    if (_controller.value.isPlaying) {
+                      _controller.pause();
+                    } else {
+                      _controller.play();
+                    }
+                  },
+//                  onHorizontalDragStart: (start) {
+//                    if (_controller.value.isPlaying)
+//                  },
+//                  onHorizontalDragUpdate: (scrollPosition) {
+//                    var step = _controller.value.duration.inMilliseconds / 100;
+//                    var position = _controller.value.position.inMilliseconds;
+//                    lastPosition = scrollPosition.globalPosition.dx;
+//
+//                    var newPosition = position + (step * (lastPosition - scrollPosition.globalPosition.dx).toInt());
+//                    print("New position = $newPosition");
+//                    _controller.seekTo(Duration(
+//                        milliseconds: newPosition.toInt()
+//                    ));
+//                    print(scrollPosition.globalPosition.dx);
+//                  },
+//                  onHorizontalDragEnd: (end) {
+//
+//                  },
+                ),
                 Container(
-                  alignment: Alignment.bottomCenter,
-                child: VideoProgressIndicator(
-                  _controller,
-                  allowScrubbing: true,
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                )),
+                    alignment: Alignment.bottomCenter,
+                    child: VideoProgressIndicator(
+                      _controller,
+                      allowScrubbing: true,
+                    )),
               ]),
             );
           } else {
@@ -82,25 +109,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Wrap the play or pause in a call to `setState`. This ensures the
-          // correct icon is shown.
-          setState(() {
-            // If the video is playing, pause it.
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              // If the video is paused, play it.
-              _controller.play();
-            }
-          });
-        },
-        // Display the correct icon depending on the state of the player.
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

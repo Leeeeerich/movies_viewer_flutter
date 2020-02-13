@@ -24,6 +24,28 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: FlatButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  disabledColor: Colors.grey,
+                  disabledTextColor: Colors.black,
+                  padding: EdgeInsets.all(8.0),
+                  splashColor: Colors.blueAccent,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SelectSeriesWidget("https://kinogo.by/13106-food-wars-shokugeki-no-soma_1-4-sezon.html")),
+                    );
+                  },
+                  child: Text(
+                    "Watch Shikugeki",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                )),
+            Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: TextField(
                 controller: _linkController,
