@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.2.0
+        uses: webfactory/ssh-agent@master
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
