@@ -6,14 +6,6 @@ on:
 
 jobs:
 
-  test_ssh:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install SSH Client
-        uses: webfactory/ssh-agent@master
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-
   test:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
     runs-on: macos-latest
@@ -144,9 +136,9 @@ jobs:
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
       - name: Install SSH Client
-        uses: webfactory/ssh-agent@v0.2.0
+        uses: webfactory/ssh-agent@master
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-private-key: ${{ secrets.SSH_KEY }}
       - uses: JamesIves/github-pages-deploy-action@master
         with:
           SSH: true
