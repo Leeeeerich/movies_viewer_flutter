@@ -139,7 +139,7 @@ jobs:
         uses: webfactory/ssh-agent@master
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-      - uses: JamesIves/github-pages-deploy-action@v3
+      - uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           SSH: true
           BRANCH: gh-pages
