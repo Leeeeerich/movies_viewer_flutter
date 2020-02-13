@@ -6,6 +6,14 @@ on:
 
 jobs:
 
+  test_ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install SSH Client
+        uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
   test:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
     runs-on: macos-latest
