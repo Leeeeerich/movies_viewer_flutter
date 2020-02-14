@@ -14,19 +14,14 @@ class VideoPlayerScreen extends StatefulWidget {
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+  int step;
   var lastPosition = 0.0;
+  var isContinuePlaying = false;
 
   @override
   void initState() {
-    // Create and store the VideoPlayerController. The VideoPlayerController
-    // offers several different constructors to play videos from assets, files,
-    // or the internet.
     _controller = VideoPlayerController.network(widget.url);
-
-    // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
-
-    // Use the controller to loop the video.
     _controller.setLooping(true);
 
     SystemChrome.setPreferredOrientations([
@@ -38,7 +33,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setPreferredOrientations([
@@ -54,17 +48,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
-      // Use a FutureBuilder to display a loading spinner while waiting for the
-      // VideoPlayerController to finish initializing.
       body: FutureBuilder(
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            // If the VideoPlayerController has finished initialization, use
-            // the data it provides to limit the aspect ratio of the video.
             return AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
-              // Use the VideoPlayer widget to display the video.
               child: Stack(children: <Widget>[
                 VideoPlayer(_controller),
                 GestureDetector(
@@ -75,24 +64,31 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       _controller.play();
                     }
                   },
-//                  onHorizontalDragStart: (start) {
-//                    if (_controller.value.isPlaying)
-//                  },
-//                  onHorizontalDragUpdate: (scrollPosition) {
-//                    var step = _controller.value.duration.inMilliseconds / 100;
-//                    var position = _controller.value.position.inMilliseconds;
-//                    lastPosition = scrollPosition.globalPosition.dx;
-//
-//                    var newPosition = position + (step * (lastPosition - scrollPosition.globalPosition.dx).toInt());
-//                    print("New position = $newPosition");
-//                    _controller.seekTo(Duration(
-//                        milliseconds: newPosition.toInt()
-//                    ));
-//                    print(scrollPosition.globalPosition.dx);
-//                  },
-//                  onHorizontalDragEnd: (end) {
-//
-//                  },
+                  onHorizontalDragStart: (start) {
+                    step = _controller.value.duration.inMilliseconds ~/ 100;
+                    if (_controller.value.isPlaying) {
+                      isContinuePlaying = true;
+                      _controller.pause();
+                    }
+                    lastPosition = start.globalPosition.dx;
+                  },
+                  onHorizontalDragUpdate: (scrollPosition) {
+                    var position = _controller.value.position.inMilliseconds;
+                    var newPosition = position +
+                        (step *
+                            ((lastPosition -
+                                    scrollPosition.globalPosition.dx) ~/
+                                100));
+                    _controller.seekTo(Duration(milliseconds: newPosition));
+                    print(position);
+                  },
+                  onHorizontalDragEnd: (end) {
+                    if (isContinuePlaying) {
+                      _controller.play();
+                      isContinuePlaying = false;
+                    }
+                    lastPosition = 0;
+                  },
                 ),
                 Container(
                     alignment: Alignment.bottomCenter,
@@ -103,8 +99,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ]),
             );
           } else {
-            // If the VideoPlayerController is still initializing, show a
-            // loading spinner.
             return Center(child: CircularProgressIndicator());
           }
         },
