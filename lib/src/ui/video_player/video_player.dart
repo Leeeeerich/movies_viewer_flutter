@@ -15,8 +15,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
   int step;
-  var lastPosition = 0.0;
   var isContinuePlaying = false;
+  GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -65,32 +65,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     }
                   },
                   onHorizontalDragStart: (start) {
-                    step = _controller.value.duration.inMilliseconds ~/ 100;
+                    RenderBox box = _globalKey.currentContext.findRenderObject();
+                    step = _controller.value.duration.inMilliseconds ~/ box.size.width;
                     if (_controller.value.isPlaying) {
                       isContinuePlaying = true;
                       _controller.pause();
                     }
-                    lastPosition = start.globalPosition.dx;
                   },
                   onHorizontalDragUpdate: (scrollPosition) {
                     var position = _controller.value.position.inMilliseconds;
-                    var newPosition = position +
-                        (step *
-                            ((lastPosition -
-                                    scrollPosition.globalPosition.dx) ~/
-                                100));
-                    _controller.seekTo(Duration(milliseconds: newPosition));
-                    print(position);
+                    var newPosition = position + (step * scrollPosition.delta.dx);
+                    _controller.seekTo(Duration(milliseconds: newPosition.toInt()));
                   },
                   onHorizontalDragEnd: (end) {
                     if (isContinuePlaying) {
                       _controller.play();
                       isContinuePlaying = false;
                     }
-                    lastPosition = 0;
                   },
                 ),
                 Container(
+                  key: _globalKey,
                     alignment: Alignment.bottomCenter,
                     child: VideoProgressIndicator(
                       _controller,
