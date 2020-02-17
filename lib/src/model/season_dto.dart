@@ -39,6 +39,15 @@ class SeasonDto implements Attachments<SeriesDto> {
     return SeasonDto(json['comment'], series);
   }
 
+  factory SeasonDto.fromListJson(List<dynamic> parsedJson) {
+    List<SeriesDto> list1 = new List<SeriesDto>();
+    for (var i = 0; i < parsedJson.length; i++) {
+      list1.add(SeriesDto.fromJson(parsedJson[i]));
+    }
+
+    return SeasonDto("ss", list1);
+  }
+
   @override
   List<SeriesDto> getAttachments() {
     return _attachments;
