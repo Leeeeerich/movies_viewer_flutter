@@ -22,7 +22,7 @@ class RepositoryImpl implements Repository {
     print("Pre getPage");
     _webServices.getPage(url).then((res) {
       print("Pageresponce ${res.statusCode}");
-      Attachments seasonsDto;
+      Attachments movies;
       String message;
       if (res.statusCode == 200) {
         var utf = decodeCp1251(res.body);
@@ -31,21 +31,29 @@ class RepositoryImpl implements Repository {
         if (startMovies == -1) {
           var startSeason = utf.indexOf("[{\"title\":");
           if (startSeason == -1) {
-            message = 'Bad link';
+            var startQualities = utf.indexOf("\"[360p]https:");
+            if (startQualities == -1) {
+              message = 'Bad link';
+            } else {
+              var pre = utf.substring(startQualities);
+              var preData = "[{\"title\":\"Movie\",\"file\":" + pre.substring(0, pre.indexOf(";")) + "}]";
+              var data = JsonDecoder().convert(preData);
+              movies = SeasonDto.fromListJson(data);
+            }
           } else {
             var pre = utf.substring(startSeason);
             var preData = pre.substring(0, pre.lastIndexOf("}]")) + "}]";
             var data = JsonDecoder().convert(preData);
-            seasonsDto = SeasonDto.fromListJson(data);
+            movies = SeasonDto.fromListJson(data);
           }
         } else {
           var pre = utf.substring(startMovies);
           var preData = pre.substring(0, pre.lastIndexOf("}]}]")) + "}]}]";
           var data = JsonDecoder().convert(preData);
-          seasonsDto = SeasonsDto.fromJson(data);
+          movies = SeasonsDto.fromJson(data);
         }
       }
-      callback(seasonsDto,
+      callback(movies,
           Status(res.statusCode == 200, res.statusCode, message: message));
     });
   }
