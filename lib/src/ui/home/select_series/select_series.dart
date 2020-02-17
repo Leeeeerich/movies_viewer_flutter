@@ -55,12 +55,12 @@ class SelectSeriesWidget extends StatelessWidget {
     if (element.getAttachments().isNotEmpty &&
         element.getAttachments()[0] is String) {
       widget = ListTile(
-        title: Text(element.name, style: TextStyle(fontSize: 18.0)),
+        title: Text(element.name ?? "", style: TextStyle(fontSize: 18.0)),
         onTap: () => callback(element.getAttachments()[0]),
       );
     } else {
       widget = ExpansionTile(
-        title: Text(element.name, style: TextStyle(fontSize: 18.0)),
+        title: Text(element.name ?? "", style: TextStyle(fontSize: 18.0)),
         children: _buildExpandableContent<Attachments>(
             element.getAttachments(), callback),
       );

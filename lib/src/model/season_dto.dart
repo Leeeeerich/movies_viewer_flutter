@@ -81,7 +81,7 @@ class SeriesDto implements Attachments<QualityDto> {
           .forEach((url) => movieUrls.add(url));
       qualities.add(QualityDto(qualityName, movieUrls));
     });
-    return SeriesDto(json['comment'], qualities);
+    return SeriesDto(json['comment'] ?? json['title'], qualities);
   }
 
   @override
