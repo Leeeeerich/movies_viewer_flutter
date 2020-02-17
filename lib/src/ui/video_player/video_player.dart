@@ -62,10 +62,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: Stack(children: <Widget>[
-                VideoPlayer(_controller),
+            return Stack(
+              children: <Widget>[
+                Container(
+                    decoration: BoxDecoration(color: Colors.black),
+                    alignment: Alignment.center,
+                    child: AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: VideoPlayer(_controller))),
                 GestureDetector(
                   onTap: () {
                     if (_controller.value.isPlaying) {
@@ -105,15 +109,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Expanded(
-                          flex: 0,
-                          child: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: getColorFromHex("#B34A4444"),
-                              ),
-                              child: _showPositionTime())),
+//                      Expanded(
+//                          flex: 0,
+//                          child: Container(
+//                              padding: EdgeInsets.all(4),
+//                              decoration: BoxDecoration(
+//                                shape: BoxShape.rectangle,
+//                                color: getColorFromHex("#B34A4444"),
+//                              ),
+//                              child: _showPositionTime())),
                       Expanded(
                           child: Container(
                               key: _globalKey,
@@ -129,23 +133,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                           playedColor: Colors.green),
                                     )
                                   ]))),
-                      Expanded(
-                          flex: 0,
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: getColorFromHex("#B34A4444"),
-                            ),
-                            child: Text(
-                              printDuration(_controller.value.duration),
-                              style: TextStyle(
-                                color: getColorFromHex("#E2E2E2"),
-                              ),
-                            ),
-                          )),
+//                      Expanded(
+//                          flex: 0,
+//                          child: Container(
+//                            padding: EdgeInsets.all(4),
+//                            decoration: BoxDecoration(
+//                              shape: BoxShape.rectangle,
+//                              color: getColorFromHex("#B34A4444"),
+//                            ),
+//                            child: Text(
+//                              printDuration(_controller.value.duration),
+//                              style: TextStyle(
+//                                color: getColorFromHex("#E2E2E2"),
+//                              ),
+//                            ),
+//                          )),
                     ]),
-              ]),
+              ],
             );
           } else {
             return Center(
