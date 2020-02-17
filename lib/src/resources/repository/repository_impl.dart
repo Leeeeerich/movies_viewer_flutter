@@ -18,7 +18,7 @@ class RepositoryImpl implements Repository {
       WebServicesImpl(); //TODO need injection from outside
 
   @override
-  getSeasons(String url, Function(SeasonsDto, Status) callback) {
+  getSeasons(String url, Function(Attachments, Status) callback) {
     print("Pre getPage");
     _webServices.getPage(url).then((res) {
       print("Pageresponce ${res.statusCode}");

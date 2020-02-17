@@ -4,12 +4,12 @@ import 'package:movies_viewer_flutter/src/resources/repository/repository_impl.d
 
 class SeasonsModel extends ChangeNotifier {
   RepositoryImpl _repository;
-  List<SeasonDto> _seasonList = List<SeasonDto>();
+  List<Attachments> _seasonList = List<Attachments>();
   String _errorMessage = "";
 
   SeasonsModel(this._repository);
 
-  List<SeasonDto> get seasonLists => _seasonList;
+  List<Attachments> get seasonLists => _seasonList;
 
   String get errorMessage => _errorMessage;
 
@@ -19,7 +19,7 @@ class SeasonsModel extends ChangeNotifier {
       if (result != null && result.getAttachments().isNotEmpty) {
         print("pre add ${_seasonList.length}");
         print("pre add attachments ${result.getAttachments().length}");
-        _seasonList.addAll(result.getAttachments());
+        result.getAttachments().forEach((element) => _seasonList.add(element));
       }
       _errorMessage = status.message ?? "";
       notifyListeners();

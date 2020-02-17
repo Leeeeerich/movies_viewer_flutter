@@ -21,19 +21,14 @@ class SelectSeriesWidget extends StatelessWidget {
             return Center(
                 child: SpinKitCubeGrid(size: 51.0, color: Colors.blue));
           } else {
-            return ListView.builder(
-                itemCount: seasons.seasonLists.length,
-                itemBuilder: (BuildContext ctxt, int index) {
-                  return ExpansionTile(
-                      title: Text(seasons.seasonLists[index].seasonName),
-                      children: _buildExpandableContent(
-                          seasons.seasonLists[index].getAttachments(),
-                          (url) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VideoPlayerScreen(url)))));
-                });
+            return ListView(
+              children: _buildExpandableContent(
+                  seasons.seasonLists,
+                  (url) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VideoPlayerScreen(url)))),
+            );
           }
         },
       ),
@@ -45,7 +40,7 @@ class SelectSeriesWidget extends StatelessWidget {
         .loadSeasons(_linkOnMovies);
   }
 
-  _buildExpandableContent<T extends Attachments>(
+  List<Widget> _buildExpandableContent<T extends Attachments>(
       List<T> list, Function(String) callback) {
     List<Widget> columnContent = [];
 
