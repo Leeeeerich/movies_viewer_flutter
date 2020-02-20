@@ -36,7 +36,9 @@ class RepositoryImpl implements Repository {
               message = 'Bad link';
             } else {
               var pre = utf.substring(startQualities);
-              var preData = "[{\"title\":\"Movie\",\"file\":" + pre.substring(0, pre.indexOf(";")) + "}]";
+              var preData = "[{\"title\":\"Movie\",\"file\":" +
+                  pre.substring(0, pre.indexOf(";")) +
+                  "}]";
               var data = JsonDecoder().convert(preData);
               movies = SeasonDto.fromListJson(data);
             }

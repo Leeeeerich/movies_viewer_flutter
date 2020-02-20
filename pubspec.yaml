@@ -28,6 +28,7 @@ dependencies:
   #Functionality
   provider: ^4.0.2
   rxdart: ^0.23.1
+  floor: ^0.11.0
 
   #UI
   flutter_spinkit:
@@ -42,6 +43,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  floor_generator: ^0.11.0
+  build_runner: ^1.7.3
 
 
 # For information on the generic Dart part of this file, see the
