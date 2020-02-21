@@ -28,6 +28,9 @@ dependencies:
   #Functionality
   provider: ^4.0.2
   rxdart: ^0.23.1
+  sqflite: ^1.2.0
+  path_provider: any
+  html: any
 
   #UI
   flutter_spinkit:

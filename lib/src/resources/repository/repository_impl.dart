@@ -4,18 +4,14 @@ import 'package:movies_viewer_flutter/src/model/season_dto.dart';
 import 'package:movies_viewer_flutter/src/resources/repository/repository.dart';
 import 'package:movies_viewer_flutter/src/resources/status.dart';
 import 'package:movies_viewer_flutter/src/resources/web_services/web_services.dart';
-import 'package:movies_viewer_flutter/src/resources/web_services/web_services_impl.dart';
 import 'package:movies_viewer_flutter/src/utils/decoders.dart';
+import 'package:sqflite/sqflite.dart';
 
 class RepositoryImpl implements Repository {
-  RepositoryImpl._internal();
+  Database _database;
+  WebServices _webServices;
 
-  static final RepositoryImpl _repository = RepositoryImpl._internal();
-
-  factory RepositoryImpl() => _repository;
-
-  final WebServices _webServices =
-      WebServicesImpl(); //TODO need injection from outside
+  RepositoryImpl(this._database, this._webServices);
 
   @override
   getSeasons(String url, Function(Attachments, Status) callback) {
@@ -36,7 +32,9 @@ class RepositoryImpl implements Repository {
               message = 'Bad link';
             } else {
               var pre = utf.substring(startQualities);
-              var preData = "[{\"title\":\"Movie\",\"file\":" + pre.substring(0, pre.indexOf(";")) + "}]";
+              var preData = "[{\"title\":\"Movie\",\"file\":" +
+                  pre.substring(0, pre.indexOf(";")) +
+                  "}]";
               var data = JsonDecoder().convert(preData);
               movies = SeasonDto.fromListJson(data);
             }
@@ -53,6 +51,9 @@ class RepositoryImpl implements Repository {
           movies = SeasonsDto.fromJson(data);
         }
       }
+
+      if (movies != null) {}
+
       callback(movies,
           Status(res.statusCode == 200, res.statusCode, message: message));
     });

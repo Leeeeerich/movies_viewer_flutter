@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movies_viewer_flutter/src/model/season_dto.dart';
-import 'package:movies_viewer_flutter/src/resources/repository/repository_impl.dart';
+import 'package:movies_viewer_flutter/src/resources/repository/repository.dart';
 
 class SeasonsModel extends ChangeNotifier {
-  RepositoryImpl _repository;
+  Repository _repository;
   List<Attachments> _seasonList = List<Attachments>();
   String _errorMessage = "";
 
