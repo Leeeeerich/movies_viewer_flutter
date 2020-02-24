@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:movies_viewer_flutter/src/model/entities/movie_entities.dart';
 import 'package:movies_viewer_flutter/src/model/season_dto.dart';
+import 'package:movies_viewer_flutter/src/resources/database/app_database.dart';
 import 'package:movies_viewer_flutter/src/resources/repository/repository.dart';
 import 'package:movies_viewer_flutter/src/resources/status.dart';
 import 'package:movies_viewer_flutter/src/resources/web_services/web_services.dart';
 import 'package:movies_viewer_flutter/src/utils/decoders.dart';
-import 'package:sqflite/sqflite.dart';
 
 class RepositoryImpl implements Repository {
-  Database _database;
+  AppDatabase _database;
   WebServices _webServices;
 
   RepositoryImpl(this._database, this._webServices);
@@ -52,10 +53,24 @@ class RepositoryImpl implements Repository {
         }
       }
 
-      if (movies != null) {}
+      if (movies != null) {
+        _database.insertMoviePage(MoviePageEntity(url, "First cinema",
+            "https://kinogo.by/uploads/cache/8/1/0/f/e/7/e/5/0/1568099570_98483352ce6c1ebdb3ad5b8982db06fc-200x300.jpg"));
+      }
 
       callback(movies,
           Status(res.statusCode == 200, res.statusCode, message: message));
     });
+  }
+
+  @override
+  getMoviePageList(Function(List<MoviePageEntity>) callback) async {
+    _database.getMoviePageList((res) => callback(res));
+  }
+
+  @override
+  getMoviePage(String url) async {
+    var res = await _database.getMoviePage(url);
+    return res;
   }
 }
