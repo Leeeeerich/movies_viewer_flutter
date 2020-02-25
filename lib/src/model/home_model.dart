@@ -12,7 +12,7 @@ class HomeModel extends ChangeNotifier {
 
   loadMoviePageList() {
     _repository.getMoviePageList((res) {
-      print("DB responce = ${res.toString()}");
+      _moviePageList.clear();
       _moviePageList.addAll(res);
       notifyListeners();
     });

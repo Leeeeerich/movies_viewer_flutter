@@ -24,6 +24,7 @@ dependencies:
   http: any
   http_middleware: any
   http_logger: any
+  url_launcher: ^5.4.2
 
   #Functionality
   provider: ^4.0.2
