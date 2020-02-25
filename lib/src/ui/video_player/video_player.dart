@@ -109,15 +109,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-//                      Expanded(
-//                          flex: 0,
-//                          child: Container(
-//                              padding: EdgeInsets.all(4),
-//                              decoration: BoxDecoration(
-//                                shape: BoxShape.rectangle,
-//                                color: getColorFromHex("#B34A4444"),
-//                              ),
-//                              child: _showPositionTime())),
                       Expanded(
                           child: Container(
                               key: _globalKey,
@@ -133,21 +124,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                           playedColor: Colors.green),
                                     )
                                   ]))),
-//                      Expanded(
-//                          flex: 0,
-//                          child: Container(
-//                            padding: EdgeInsets.all(4),
-//                            decoration: BoxDecoration(
-//                              shape: BoxShape.rectangle,
-//                              color: getColorFromHex("#B34A4444"),
-//                            ),
-//                            child: Text(
-//                              printDuration(_controller.value.duration),
-//                              style: TextStyle(
-//                                color: getColorFromHex("#E2E2E2"),
-//                              ),
-//                            ),
-//                          )),
                     ]),
               ],
             );
@@ -160,19 +136,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     );
   }
 
-  Widget _showPositionTime() => StreamBuilder<Duration>(
-        stream: Stream.fromFuture(_controller.position),
-        builder: (context, snapshot) {
-          print("SnapShot =  " + snapshot.data.toString());
-          return Text(
-            snapshot.hasData ? printDuration(snapshot.data) : "00:00",
-            style: TextStyle(
-              color: getColorFromHex("#E2E2E2"),
-            ),
-          );
-        },
-      );
-
   Widget _showLabel() {
     return StreamBuilder<LabelEvents>(
         stream: _progressLabelController.stream,
@@ -183,39 +146,28 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             _visibilityLabel = false;
           }
           return Visibility(
-              visible: _visibilityLabel,
-              child: Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Transform.translate(
-                      offset: Offset(-30, 0.0),
-                      child: Column(children: <Widget>[
-                        LinearProgressIndicator(
-                          value: _controller.value.position.inMilliseconds /
-                              _controller.value.duration.inMilliseconds,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.green),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: getColorFromHex("#B34A4444"),
-                            borderRadius: BorderRadius.all(Radius.circular(6)),
-                          ),
-                          child: Text(
-                            _controller.value.position != null
-                                ? printDuration(_controller.value.position)
-                                : "00:00",
-                            style: TextStyle(
-                              color: getColorFromHex("#E2E2E2"),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: SvgPicture.asset(
-                              "assets/images/top_triangle.svg"),
-                        )
-                      ]))));
+            visible: _visibilityLabel,
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: getColorFromHex("#B34A4444"),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              child: Text(
+                _controller.value.position != null
+                    ? printDuration(_controller.value.position) +
+                        '/' +
+                        printDuration(_controller.value.duration)
+                    : "00:00",
+                style: TextStyle(
+                  fontSize: 36,
+                  color: getColorFromHex("#E2E2E2"),
+                ),
+              ),
+            ),
+          );
         });
   }
 }
