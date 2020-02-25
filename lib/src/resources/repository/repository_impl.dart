@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:html/parser.dart';
 import 'package:movies_viewer_flutter/src/model/entities/movie_entities.dart';
 import 'package:movies_viewer_flutter/src/model/season_dto.dart';
 import 'package:movies_viewer_flutter/src/resources/database/app_database.dart';
@@ -11,6 +12,8 @@ import 'package:movies_viewer_flutter/src/utils/decoders.dart';
 class RepositoryImpl implements Repository {
   AppDatabase _database;
   WebServices _webServices;
+
+  static const BASE_URL = "https://kinogo.by";
 
   RepositoryImpl(this._database, this._webServices);
 
@@ -51,11 +54,27 @@ class RepositoryImpl implements Repository {
           var data = JsonDecoder().convert(preData);
           movies = SeasonsDto.fromJson(data);
         }
-      }
 
-      if (movies != null) {
-        _database.insertMoviePage(MoviePageEntity(url, "First cinema",
-            "https://kinogo.by/uploads/cache/8/1/0/f/e/7/e/5/0/1568099570_98483352ce6c1ebdb3ad5b8982db06fc-200x300.jpg"));
+        if (movies != null) {
+          var doc = parse(utf);
+          var movieInfoBloc = doc.body.getElementsByClassName("fullimg").first;
+          String coverBloc;
+          String title;
+          movieInfoBloc
+              .getElementsByTagName('a')
+              .first
+              .children
+              .first
+              .attributes
+              .forEach((key, value) {
+            if (key == "src") {
+              coverBloc = BASE_URL + value;
+            } else if (key == "alt") {
+              title = value;
+            }
+          });
+          _database.insertMoviePage(MoviePageEntity(url, title, coverBloc));
+        }
       }
 
       callback(movies,
