@@ -57,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               ),
             ),
           ),
+          Visibility(
+              visible: _linkController.text.length == 0, child: Text('OR')),
           FlatButton(
             color: Colors.blue,
             textColor: Colors.white,
@@ -103,23 +105,26 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                       homeModel.moviePageList[index].url)),
                             );
                           },
-                          child: Row(
-                            children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Image.network(
-                                    homeModel.moviePageList[index].urlCover,
-                                    width: 60,
-                                    height: 80,
-                                  )),
-                              Text(
-                                homeModel.moviePageList[index].title,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 14),
-                              )
-                            ],
-                          ));
+                          child: Padding(
+                              padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                              child: Card(
+                                  child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 8),
+                                      child: Image.network(
+                                        homeModel.moviePageList[index].urlCover,
+                                        width: 60,
+                                        height: 80,
+                                      )),
+                                  Flexible(child: Text(
+                                    homeModel.moviePageList[index].title,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14),
+                                  ))
+                                ],
+                              ))));
                     });
               }
             },
