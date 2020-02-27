@@ -1,16 +1,28 @@
 # movies_viewer_flutter
 
-Movies viewer flutter
+Movies viewer flutter - an application for watching movies and TV shows from the resource: kinogo.by,
+implemented using the Flutter framework. My first project on Flutter.
 
-## Getting Started
+Version:
+ - [BETA Android](https://github.com/Leeeeerich/movies_viewer_flutter/releases)
+ 
+How use:
+ - Insert link on description movie from [kinogo.by](https://kinogo.by/). Example: https://kinogo.by/6085-fors-mazhory-1-9-sezon.html.
+ - The player supports scrolling on the screen.
 
-This project is a starting point for a Flutter application.
+Platforms:
+ - Android - yes (min. version 6.0)
+ - iOS - in future
+ - WEB - limitation SDK (beta), waiting fix.
 
-A few resources to get you started if this is your first Flutter project:
+Using technologis:
+ - http
+ - html_parser
+ - SQflite
+ - Providers,
+ - GitHub Actions ()
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+What's next:
+ 1. Auto play after opening the player;
+ 2. Automatically switch to the next video of a season;
+ 3. Scrolling video by double tap and treeple tap.
