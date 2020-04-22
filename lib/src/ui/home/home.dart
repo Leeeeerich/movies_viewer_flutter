@@ -89,6 +89,15 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           ),
           Expanded(child: Consumer<HomeModel>(
             builder: (context, homeModel, child) {
+              print("Widget invalidate");
+              print("Widget, uri = ${homeModel.uri}");
+              if (homeModel.uri.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SelectSeriesWidget(homeModel.uri)),
+                );
+              }
               if (homeModel.moviePageList.isEmpty) {
                 return Text('You have not viewed anything yet');
               } else {
@@ -118,7 +127,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                                         width: 60,
                                         height: 80,
                                       )),
-                                  Flexible(child: Text(
+                                  Flexible(
+                                      child: Text(
                                     homeModel.moviePageList[index].title,
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 14),
