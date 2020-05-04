@@ -18,6 +18,7 @@ class SelectSeriesWidget extends StatelessWidget {
       appBar: AppBar(title: Text("Title")),
       body: Consumer<SeasonsModel>(
         builder: (context, seasons, child) {
+          print("Seasons list size = ${seasons.seasonLists.length}");
           if (seasons.seasonLists.isEmpty) {
             return Center(
                 child: SpinKitCubeGrid(size: 51.0, color: Colors.blue));
@@ -28,7 +29,8 @@ class SelectSeriesWidget extends StatelessWidget {
                   (url) => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VideoPlayerScreen(url)))),
+                          builder: (context) =>
+                              VideoPlayerScreen({"movie": url}, "movie")))),
             );
           }
         },
