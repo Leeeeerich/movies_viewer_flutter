@@ -147,14 +147,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Visibility(
-                      visible: isVisibleTools, child: _getTitleOfVideo()),
-                  Visibility(
-                      visible: isVisibleTools,
-                      child: _getButtonsOfManagements()),
-                  Visibility(
-                      visible: _visibilityLabel || _isVisibleTools,
-                      child: _getVideoProgress())
+                  IgnorePointer(
+                      ignoring: true,
+                      child: AnimatedOpacity(
+                          opacity: isVisibleTools ? 1 : 0,
+                          duration: Duration(milliseconds: 300),
+                          child: _getTitleOfVideo())),
+                  _getButtonsOfManagements(),
+                  _getVideoProgress()
                 ])),
       ),
     ]);
@@ -179,52 +179,57 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       );
 
   Widget _getButtonsOfManagements() => Expanded(
-          child: Row(
-              key: UniqueKey(),
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            IconButton(
-                iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
-                onPressed: () {
-                  _setOrUpdateShowingManageToolsTimer();
-                },
-                icon: Container(
-                    height: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    width: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    child: SvgPicture.asset("assets/icons/ic_prev.svg",
-                        color: BUTTON_COLOR))),
-            IconButton(
-                iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
-                onPressed: () {
-                  print("Play/stop clicked");
-                  _setOrUpdateShowingManageToolsTimer();
-                  if (_controller.value.isPlaying) {
-                    _controller.pause();
-                  } else {
-                    _controller.play();
-                  }
-                  setState(() {});
-                },
-                icon: Container(
-                    height: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    width: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    child: SvgPicture.asset(
-                        _controller.value.isPlaying
-                            ? "assets/icons/ic_pause.svg"
-                            : "assets/icons/ic_play.svg",
-                        color: BUTTON_COLOR))),
-            IconButton(
-                iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
-                onPressed: () {
-                  _setOrUpdateShowingManageToolsTimer();
-                },
-                icon: Container(
-                    height: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    width: ICONS_MANAGEMENT_TOOLS_SIZE,
-                    child: SvgPicture.asset("assets/icons/ic_next.svg",
-                        color: BUTTON_COLOR)))
-          ]));
+      child: IgnorePointer(
+          ignoring: !_isVisibleTools,
+          child: AnimatedOpacity(
+              opacity: _isVisibleTools ? 1 : 0,
+              duration: Duration(milliseconds: 300),
+              child: Row(
+                  key: UniqueKey(),
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                        iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
+                        onPressed: () {
+                          _setOrUpdateShowingManageToolsTimer();
+                        },
+                        icon: Container(
+                            height: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            width: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            child: SvgPicture.asset("assets/icons/ic_prev.svg",
+                                color: BUTTON_COLOR))),
+                    IconButton(
+                        iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
+                        onPressed: () {
+                          print("Play/stop clicked");
+                          _setOrUpdateShowingManageToolsTimer();
+                          if (_controller.value.isPlaying) {
+                            _controller.pause();
+                          } else {
+                            _controller.play();
+                          }
+                          setState(() {});
+                        },
+                        icon: Container(
+                            height: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            width: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            child: SvgPicture.asset(
+                                _controller.value.isPlaying
+                                    ? "assets/icons/ic_pause.svg"
+                                    : "assets/icons/ic_play.svg",
+                                color: BUTTON_COLOR))),
+                    IconButton(
+                        iconSize: ICONS_MANAGEMENT_TOOLS_SIZE,
+                        onPressed: () {
+                          _setOrUpdateShowingManageToolsTimer();
+                        },
+                        icon: Container(
+                            height: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            width: ICONS_MANAGEMENT_TOOLS_SIZE,
+                            child: SvgPicture.asset("assets/icons/ic_next.svg",
+                                color: BUTTON_COLOR)))
+                  ]))));
 
   GestureDetector _getGestureDetector(Widget child) {
     return GestureDetector(
@@ -265,9 +270,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   Widget _getVideoProgress() {
-    return Container(
-        alignment: Alignment.bottomCenter,
-        child: VideoProgressLabelIndicator(_controller));
+    return IgnorePointer(
+        ignoring: _isVisibleTools || _visibilityLabel,
+        child: AnimatedOpacity(
+            opacity: _isVisibleTools || _visibilityLabel ? 1 : 0,
+            duration: Duration(milliseconds: 300),
+            child: Container(
+                alignment: Alignment.bottomCenter,
+                child: VideoProgressLabelIndicator(_controller))));
   }
 }
 
