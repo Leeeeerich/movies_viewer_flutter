@@ -7,7 +7,7 @@ Version:
  - [BETA Android](https://github.com/Leeeeerich/movies_viewer_flutter/releases)
  
 How use:
- - Insert link on description movie from [kinogo.by](https://kinogo.by/). Example: https://kinogo.by/6085-fors-mazhory-1-9-sezon.html.
+ - Insert link on description movie from [kinogo.by](https://kinogo.la/). Example: https://kinogo.la/6085-fors-mazhory-1-9-sezon.html.
  - The player supports scrolling on the screen.
 
 Platforms:
